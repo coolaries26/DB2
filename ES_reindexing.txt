@@ -1,0 +1,98 @@
+Steps for ES Indexing:
+
+Disable the WLM Kills by running the below query in the Primary DB (sugoltp02)
+
+db2 "ALTER THRESHOLD THRESHOLD_SLOWSQL DISABLE"
+
+1.Disable the apache crontabs in sugws01 using the below command
+
+crontab -e apache . Make sure all the crons are disabled and especially the below one which is related to ES
+
+#* * * * * (. $HOME/.profile; /var/www/htdocs/sales/salesconnect/batch/RTC_32913/rtc_32913_master.ksh)  >> /var/log/httpd/espush.log 2>&1
+
+2.Login to the sugws01 web services server
+https://sugws01.rtp.raleigh.ibm.com/sales/salesconnect/
+
+Goto to Admin Panel —> Goto Elastic search Dashboard —> Records waiting for Indexing per module
+
+3.Kill all the Modules waiting for indexing
+
+4.Do not click on the check box in the pop up which appears when you click on the 'Kill' buttons.This might take sometime
+
+5. After we clear all the modules it should have cleared the FTS_Queue
+
+6.To check if the FTS_Queue records are cleared or no we can execute the below query on the primary DB ( in this case it is sugoltp02)
+
+db2 "select count, processed, bean_module from sctid.fts_queue group by bean_module, processed with ur"
+
+7.After executing the above command if you see the output as below then we are good to go.
+
+1           PROCESSED BEAN_MODULE
+----------- --------- ----------------------------------------------------------------------------------------------------
+
+  0 record(s) selected.
+
+8.Goto Queued Indexing Job >> Remove all Modules by using the Kill button and this removes the records in Job_Queue table
+
+9.We can verify using the below command
+db2 "select name from sctid.job_queue where name like 'FTSConsumer%'"
+
+10.After executing the above command if we get the below output then we are good to go
+
+----------------------------------------------------------------------------------------------------
+
+  0 record(s) selected.
+
+11. If the Job Queue table is not yet cleared then use the below queries to clear the records
+
+db2 "delete from job_queue where name like ('FTS%')"
+db2 "delete from sctid.fts_queue"
+
+12 If the Job_queue is full and has modules then below is the output
+
+NAME
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FTSConsumer Accounts
+FTSConsumer Calls
+FTSConsumer Contacts
+FTSConsumer ContactsEU
+FTSConsumer Documents
+FTSConsumer Emails
+FTSConsumer ibm_BPContacts
+FTSConsumer ibm_BPContactsEU
+FTSConsumer Leads
+FTSConsumer LeadsEU
+FTSConsumer Meetings
+FTSConsumer Notes
+FTSConsumer Opportunities
+FTSConsumer Tasks
+FTSConsumer Users
+
+  15 record(s) selected.
+ 
+13.Goto search link in the Admin panel under system section and check the number of enabled modules. It should be 12. if its is 12 then that is correct
+
+14.Host of ES should be respective ES load balancer node(i.e. svtx86lb01.rtp.raleigh.ibm.com, suges01.rtp.raleigh.ibm.com, svt2es01.rtp.raleigh.ibm.com
+
+15.Test the connection once before indexing.If the connection is successful then go ahead with indexing the modules
+
+16.Click on "Schedule System Index" button and start indexing the modules.Remember to click the check box to delete all existing data before indexing.
+
+17.The last thing which remains after this is to start the cron which is not started until FTS_queue is fully populated(As per the instructions we got from Pear Carlson)
+This takes around 15 to 20 mins and can be monitored using the query.
+
+db2 "select count, processed, bean_module from sctid.fts_queue group by bean_module, processed with ur"
+
+18.When all the modules(12 modules) has been processed and FTS _Queue is populated kron can be enabled.
+
+19.Re enable the WLM after the indexing is done using the below query.
+
+db2 "ALTER THRESHOLD THRESHOLD_SLOWSQL ENABLE"
+
+20.Once the indexing is done we can query the number of records in the table excluding the soft deleted records.As ES doesn't index the soft deleted records.
+
+Ex: db2 "select count(*) from sctid.contacts where deleted=0"; ( An example for contacts for contacts module)
+
+And compare the result with the number of records shown/indexed in the head plugin view. if its a match/close enough then indexing went well.Else  re index the module again will be necessary.
+
+ 

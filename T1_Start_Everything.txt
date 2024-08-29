@@ -1,0 +1,80 @@
+*****************************************
+ACTION TO BE PERFORMED BY 
+STEP A -------- SCADMIN
+STEP B -------- SCADMIN 
+STEP C -------- SCADMIN 
+STEP D -------- SCADMIN 
+STEP E -------- SCADMIN 
+STEP F -------- SCADMIN 
+STEP G -------- SCADMIN
+*******************************************
+
+
+STEP A. Start Capture of SalesConnect Data #SCADMIN
+------------------------------------- ---- --------
+
+1. log into the g01acirdb019.ahe.pok.ibm.com
+2. user : dpsiwcp
+3. cd ~/dpropout
+4. Start the capture program in normal mode depends on requirement.
+5. Cold mode:
+nohup asncap capture_server=SALECONN capture_schema=ASN pwdfile=asnpwd.aut startmode=cold &
+
+STEP B. Start Apply of REPLICA Data  #SCADMIN
+-----------------------------------------  -------
+1. log into the b01acirdb069.ahe.pok.ibm.com
+2. user : dpsiwap
+3. cd ~/dpropout
+4. Set the file mode creation mask
+	umask 002
+5. Start the SQL Apply program:
+	nohup asnapply CONTROL_SERVER=SCIWREP APPLY_QUAL=DPRASCT loadxit=y &
+
+*********Log verification*******************
+6. Run the below command the check the apply status.
+ps -ef | grep -i 'asn'
+
+7. check if any locks :
+db2 list applications show detail | grep -i Lock
+
+STEP C. Start apply in ODS db: SCADMIN
+--------------------------------------
+
+1. log into the b01acirdbs003.ahe.pok.ibm.com
+2. user : dpsiwap
+3. cd ~/dpropout
+3. umask 002
+4. nohup asnapply CONTROL_SERVER=SCIWSTG  APPLY_QUAL=DPRAUDIT  loadxit=y  pwdfile=asnpwd.aut &
+   nohup asnapply CONTROL_SERVER=SCIWSTG  APPLY_QUAL=DPRAFCST  loadxit=y  pwdfile=asnpwd.aut &
+   nohup asnapply CONTROL_SERVER=SCIWSTG  APPLY_QUAL=DPRASET1  loadxit=y  pwdfile=asnpwd.aut &
+   nohup asnapply CONTROL_SERVER=SCIWSTG  APPLY_QUAL=DPRASET2  loadxit=y  pwdfile=asnpwd.aut &
+   nohup asnapply CONTROL_SERVER=SCIWSTG  APPLY_QUAL=DPRASET3  loadxit=y  pwdfile=asnpwd.aut &
+   nohup asnapply CONTROL_SERVER=SCIWSTG  APPLY_QUAL=DPRADOPS  loadxit=y  pwdfile=asnpwd.aut &
+
+*********Log verification*******************
+5. Run the below command the check the apply status.
+ps -ef | grep -i 'asn'
+
+
+
+STEP D: Uncomment Crontabs in all the servers
+----------------------------------------------
+1. log into the g01acirdb019.ahe.pok.ibm.com / dpsiwcp
+2. Uncomment crontabs
+
+3. log into the b01acirdb069.ahe.pok.ibm.com / dpsiwap
+4. Uncomment crontabs
+
+5. log into the b01acirdbs003.ahe.pok.ibm.com / dpsiwap
+6. uncomment crontabs
+
+************************************************
+Note: Make sure step C is completed before STEP E starts
+************************************************
+STEP E: Start ETL #SCADMIN 
+------------------- --------------
+
+1. log into the b01aciisd001.ahe.pok.ibm.com
+2. user : sciwetl 	
+3. rm /home/sciwetl/disableETL
+	

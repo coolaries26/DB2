@@ -1,0 +1,139 @@
+C:\Program Files\IBM\SQLLIB\bnd>db2 bind @db2ubind.lst
+
+LINE    MESSAGES FOR db2ubind.lst
+------  ----------------------------------------------         -----------------
+-----
+        SQL0061W  The binder is in progress.
+        SQL1024N  A database connection does not exist.
+                  SQLSTATE=08003
+        SQL0082C  An error has occurred which has terminated
+                  processing.
+        SQL0092N  No package was created because of previous errors.
+        SQL0091N  Binding was ended with "3" errors and "0" warnings.
+
+C:\Program Files\IBM\SQLLIB\bnd>db2
+(c) Copyright IBM Corporation 1993,2007
+Command Line Processor for DB2 Client 10.5.5
+
+You can issue database manager commands and SQL statements from the command
+prompt. For example:
+    db2 => connect to sample
+    db2 => bind sample.bnd
+
+For general help, type: ?.
+For command help, type: ? command, where command can be
+the first few keywords of a database manager command. For example:
+ ? CATALOG DATABASE for help on the CATALOG DATABASE command
+ ? CATALOG          for help on all of the CATALOG commands.
+
+To exit db2 interactive mode, type QUIT at the command prompt. Outside
+interactive mode, all commands must be prefixed with 'db2'.
+To list the current command option settings, type LIST COMMAND OPTIONS.
+
+For more detailed help, refer to the Online Reference Manual.
+
+db2 => bind @db2ubind.lst
+
+LINE    MESSAGES FOR db2ubind.lst
+------  ----------------------------------------------         -----------------
+-----
+        SQL0061W  The binder is in progress.
+        SQL1024N  A database connection does not exist.
+                  SQLSTATE=08003
+        SQL0082C  An error has occurred which has terminated
+                  processing.
+        SQL0092N  No package was created because of previous errors.
+        SQL0091N  Binding was ended with "3" errors and "0" warnings.
+db2 => connect to sample
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 10.5.5
+ SQL authorization ID   = AKADIAN
+ Local database alias   = SAMPLE
+
+db2 => bind @db2ubind.lst
+
+LINE    MESSAGES FOR db2ubind.lst
+------  ----------------------------------------------         -----------------
+-----
+        SQL0061W  The binder is in progress.
+
+LINE    MESSAGES FOR db2clpnc.bnd
+------  ----------------------------------------------         -----------------
+-----
+        SQL0595W  Isolation level "NC" has been escalated to "UR".
+                  SQLSTATE=01526
+
+LINE    MESSAGES FOR db2arxnc.bnd
+------  ----------------------------------------------         -----------------
+-----
+        SQL0595W  Isolation level "NC" has been escalated to "UR".
+                  SQLSTATE=01526
+
+LINE    MESSAGES FOR db2ats_sps.bnd
+------  ----------------------------------------------         -----------------
+-----
+ 1173   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1203   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1234   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1482   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1499   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1517   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1555   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1679   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1696   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1715   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1732   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1895   SQL0204N  "SYSTOOLS.ADMINTASKSTATUS" is an undefined name.
+                  SQLSTATE=01532
+ 1950   SQL0204N  "SYSTOOLS.ADMINTASKSTATUS" is an undefined name.
+                  SQLSTATE=01532
+ 1962   SQL0204N  "SYSTOOLS.ADMINTASKS" is an undefined name.
+                  SQLSTATE=01532
+ 1979   SQL0204N  "SYSTOOLS.ADMINTASKSTATUS" is an undefined name.
+                  SQLSTATE=01532
+
+LINE    MESSAGES FOR db2_adminotm.bnd
+------  ----------------------------------------------         -----------------
+-----
+  242   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  449   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  476   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  555   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  625   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  651   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  667   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  737   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+  821   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+ 1192   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+ 1291   SQL0204N  "SYSTOOLS.ADMIN_MOVE_TABLE" is an undefined name.
+                  SQLSTATE=01532
+
+LINE    MESSAGES FOR db2ubind.lst
+------  ----------------------------------------------         -----------------
+-----
+        SQL0091N  Binding was ended with "0" errors and "28"
+                  warnings.
+db2 =>

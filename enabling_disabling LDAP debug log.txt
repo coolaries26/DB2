@@ -1,0 +1,24 @@
+I saw a way to enable LDAP plugin debug. 
+https://w3-connections.ibm.com/wikis/home?lang=en-us#!/wiki/W01d96f8176ed_4d42_a814_0d95f45c8e91/page/DB2 LDAP plugin (https://w3-connections.ibm.com/wikis/home?lang=en-us#%21/wiki/W01d96f8176ed_4d42_a814_0d95f45c8e91/page/DB2 LDAP plugin) 
+I think we can have a try 
+be careful when we set " DB2ENVLIST" 
+As instance owner, run these sequence of commands on the db2 server.
+
+1) export LDAP_DEBUG=65535
+2) export LDAP_DEBUG_FILE=/tmp/ldap_client_svt5ods.out
+3) db2set DB2ENVLIST="ICC_TRNG ICC_IGNORE_FIPS DB2_JVM_STARTARGS IBM_HEAPDUMPDIR IBM_JAVACOREDIR IBM_COREDIR LDAP_DEBUG LDAP_DEBUG_FILE"
+4) ls -l /tmp/ldap_client_svt5ods.out
+5) db2stop
+6) db2start
+
+TEST LDAP user connection. In this example the user is connecting to the ODS database.  A test of HADR would be using SALECONN.
+7a) db2 connect to SCIWSTG user <ldap_user@xx.ibm.com>
+7b) disconnect SCIWSTG
+7c) quit
+
+ 
+ db2set DB2ENVLIST="ICC_TRNG ICC_IGNORE_FIPS DB2_JVM_STARTARGS IBM_HEAPDUMPDIR IBM_JAVACOREDIR IBM_COREDIR"
+9) db2stop
+10) db2start  
+11) Send the debug file to interested folks.
+

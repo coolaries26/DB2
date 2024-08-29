@@ -1,0 +1,11 @@
+login to rdbs071 as dpdeap
+
+cd torun
+dpdeap@b01cxnp22030:/home/dpdeap/torun# ps -ef|grep asn
+  dpdeap 21234098        1  24   Nov 11      - 42:08 asnapply control_server=IDESPRD apply_qual=APPWWPRD apply_path=/home/dpdeap/torun pwdfile=asnpwd.aut logreuse=y logstdout=y loadxit=y inamsg=y notify=n copyonce=n trlreuse=n term=n
+
+to stop apply
+asnacmd control_server=IDESPRD apply_qual=APPWWPRD stop
+
+to start apply
+nohup asnapply control_server=IDESPRD apply_qual=APPWWPRD apply_path=/home/dpdeap/torun pwdfile=asnpwd.aut logreuse=y logstdout=y loadxit=y inamsg=y notify=n copyonce=n trlreuse=n term=n &
